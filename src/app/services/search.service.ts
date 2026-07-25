@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SearchService {
-  private baseUrl = 'http://localhost:8080'; // adjust as needed
+  private baseUrl = 'voter-appbackend-production.up.railway.app'; // adjust as needed
 
   constructor(private http: HttpClient) { }
 
