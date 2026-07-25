@@ -51,7 +51,7 @@ export class ResultsComponent {
   searchElections(event: any) {
     const query = event.target.value;
     if (query.length >= 3) {
-      this.http.get<any[]>(`http://localhost:8080/elections/${query}`).subscribe({
+      this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/${query}`).subscribe({
         next: (data) => {
           this.elections = data;
           if (data.length === 0) this.constituencies = [];
@@ -72,7 +72,7 @@ export class ResultsComponent {
 
   onElectionSelect(election: any) {
     if (election && election.elecId) {
-      this.http.get<any[]>(`http://localhost:8080/${election.elecId}/constituenciesForResult`)
+      this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/${election.elecId}/constituenciesForResult`)
         .subscribe(data => this.constituencies = data);
       this.selectedConstituency = null;
       this.results = [];
@@ -88,7 +88,7 @@ export class ResultsComponent {
       const constituencyId = this.selectedConstituency.constituency.constId;
       const electionId = this.selectedElection.elecId;
 
-      this.http.post(`http://localhost:8080/publish/${constituencyId}/${electionId}`, {}, { responseType: 'text' })
+      this.http.post(`https://voter-appbackend-production.up.railway.app/publish/${constituencyId}/${electionId}`, {}, { responseType: 'text' })
         .subscribe(() => alert("Results published successfully!"));
     } else {
       alert("Please select election and constituency");
@@ -100,7 +100,7 @@ export class ResultsComponent {
       const electionId = this.selectedElection.elecId;
       const constituencyId = this.selectedConstituency.constituency.constId;
 
-      this.http.get<any[]>(`http://localhost:8080/electionResult/${constituencyId}/${electionId}`)
+      this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/electionResult/${constituencyId}/${electionId}`)
         .subscribe({
           next: (data) => {
             this.results = data;

@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   }
 
   checkActiveElection() {
-    this.http.get<any>(`http://localhost:8080/active/${this.constituencyId}`)
+    this.http.get<any>(`https://voter-appbackend-production.up.railway.app/active/${this.constituencyId}`)
       .subscribe({
         next: (response) => {
           if (response.status === 'ACTIVE') {
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchResults(elecId: number, constId: number) {
-    this.http.get<any[]>(`http://localhost:8080/electionResult/${constId}/${elecId}`)
+    this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/electionResult/${constId}/${elecId}`)
       .subscribe({
         next: (data) => {
           this.showResults = true;
@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDescriptions(elecId: number, constId: number) {
-    this.http.get<any[]>(`http://localhost:8080/descriptions/${elecId}/${constId}`)
+    this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/${elecId}/${constId}`)
       .subscribe({
         next: (res) => {
           this.descriptions = res;
@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
   }
 
   checkVoterStatus(voterId: string, electionId: string) {
-    this.http.get<boolean>(`http://localhost:8080/check/${voterId}/${electionId}`)
+    this.http.get<boolean>(`https://voter-appbackend-production.up.railway.app/${voterId}/${electionId}`)
       .subscribe({
         next: (hasVoted) => {
           if (hasVoted) {
@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    this.http.post<any>(`http://localhost:8080/generate/${this.aadhaarId}`, {})
+    this.http.post<any>(`https://voter-appbackend-production.up.railway.app/generate/${this.aadhaarId}`, {})
       .subscribe({
         next: (res) => {
           alert(`OTP sent to mobile: ${res.mobileNumber}\nYour OTP is: ${res.otp}`);
@@ -187,7 +187,7 @@ export class DashboardComponent implements OnInit {
     formData.set('aadhaarId', this.aadhaarId);
     formData.set('otp', enteredOtp);
 
-    this.http.post<any>('http://localhost:8080/verifyVoterOtp', formData.toString(), {
+    this.http.post<any>('https://voter-appbackend-production.up.railway.app/verifyVoterOtp', formData.toString(), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).subscribe({
       next: (res) => {

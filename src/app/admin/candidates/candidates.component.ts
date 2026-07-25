@@ -44,7 +44,7 @@ export class CandidatesComponent implements OnInit {
   activeForm: string = '';
 
 
-  private baseUrl = 'http://localhost:8080'; // adjust as needed
+  private baseUrl = 'https://voter-appbackend-production.up.railway.app'; // adjust as needed
 
   constructor(
     private http: HttpClient,

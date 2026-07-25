@@ -14,7 +14,7 @@ export class CastvoteComponent implements OnInit, OnDestroy {
   constituencyId: string | null = null;
   electionId: string | null = null;
   voterId: string | null = null;
-  baseUrl: string = "http://localhost:8080";
+  baseUrl: string = "https://voter-appbackend-production.up.railway.app";
 
   private mediaStream: MediaStream | null = null;
 

@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./election.component.css']
 })
 export class ElectionComponent implements OnInit {
-  baseUrl = 'http://localhost:8080';
+  baseUrl = 'https://voter-appbackend-production.up.railway.app';
 
   showActivateForm = false;
   showAddElectionType: boolean = false;
