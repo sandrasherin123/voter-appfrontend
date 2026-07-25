@@ -1,0 +1,21 @@
+
+<div class="container">
+  <button class="btn-back" (click)="goBack()">⬅ Back</button>
+  <h2 class="title">Cast Your Vote</h2>
+
+  <!-- Hidden webcam capture -->
+  <video #videoElement autoplay playsinline width="320" height="240"></video>
+  <canvas #canvasElement width="320" height="240" style="display:none;"></canvas>
+
+  <div class="cards">
+    <div class="card" *ngFor="let item of candidates">
+      <img [src]="item.candidate.photo ? item.candidate.photo : 'assets/default-photo.png'" alt="Candidate Photo"
+        class="photo">
+      <h3>{{ item.candidate.name }}</h3>
+      <p><strong>Party:</strong> {{ item.candidate.partyName }}</p>
+      <button (click)="castVote(item.candidate.candId)" class="vote-btn">
+        Cast Vote
+      </button>
+    </div>
+  </div>
+</div>

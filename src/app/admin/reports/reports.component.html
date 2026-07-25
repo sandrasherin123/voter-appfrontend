@@ -1,0 +1,69 @@
+<div class="container">
+    <button class="btn-back" (click)="goBack()">⬅ Back</button>
+
+    <h2>📋 Voter Status Report</h2>
+
+    <!-- 🔹 Election search -->
+    <div class="section">
+        <label for="electionSearch">Search Election</label>
+        <input id="electionSearch" type="text" placeholder="Type at least 3 characters..."
+            (input)="searchElections($event)" [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- 🔹 Election dropdown -->
+    <div *ngIf="elections.length > 0" class="section">
+        <label for="electionSelect">Select Election</label>
+        <select id="electionSelect" [(ngModel)]="selectedElection" (change)="onElectionSelect(selectedElection)">
+            <option *ngFor="let election of elections" [ngValue]="election">
+                {{ election.title }} ({{ election.electionType.name }})
+            </option>
+        </select>
+    </div>
+
+    <!-- 🔹 Constituency dropdown -->
+    <div *ngIf="constituencies.length > 0" class="section">
+        <label for="constituencySelect">Select Constituency</label>
+        <select id="constituencySelect" [(ngModel)]="selectedConstituency">
+            <option *ngFor="let c of constituencies" [ngValue]="c">
+                {{ c.constituency.name }}
+            </option>
+        </select>
+    </div>
+
+    <!-- 🔹 Submit button -->
+    <div class="actions section">
+        <button (click)="fetchReport()" [disabled]="!selectedConstituency">📑 Get Report</button>
+    </div>
+
+    <!-- 🔹 Report Table -->
+    <div *ngIf="voterStatuses.length > 0" class="results section">
+        <h3>✅ Voters Who Casted Their Vote</h3>
+        <table border="1" cellpadding="6">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Election</th>
+                    <th>Constituency</th>
+                    <th>Voted At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let v of voterStatuses">
+                    <td><img [src]="getImage(v.photo)" width="80" height="80" /></td>
+                    <td>{{ v.name }}</td>
+                    <td>{{ v.email }}</td>
+                    <td>{{ v.phone }}</td>
+                    <td>{{ v.address }}</td>
+                    <td>{{ v.electionName }}</td>
+                    <td>{{ v.constituencyName }}</td>
+                    <td>{{ v.votedAt | date:'short' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

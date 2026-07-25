@@ -1,0 +1,193 @@
+.header-container {
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 25px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.btn-back {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.btn-back:hover {
+    background: linear-gradient(135deg, #224abe, #4e73df);
+    transform: translateY(-2px);
+}
+
+.btn-back:active {
+    transform: scale(0.96);
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+h3 {
+    margin-bottom: 15px;
+    color: #34495e;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.button-group button {
+    padding: 10px 22px;
+    border: none;
+    background: #ecf0f1;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.button-group button.active,
+.button-group button:hover {
+    background: #3498db;
+    color: white;
+}
+
+/* Forms */
+.form-container,
+.search-container {
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Groups */
+.styled-form .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.styled-form label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.styled-form input,
+.styled-form select,
+.search-field input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    transition: border 0.3s ease;
+}
+
+.styled-form input:focus,
+.styled-form select:focus,
+.search-field input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Dropdowns */
+.search-dropdown,
+ul {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+    border-radius: 6px;
+    margin-top: 5px;
+    z-index: 10;
+}
+
+.search-option,
+ul li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-option:hover,
+ul li:hover {
+    background: #f0f0f0;
+}
+
+/* Candidate Results */
+.results-container {
+    margin-top: 20px;
+}
+
+.candidate-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+}
+
+/* Submit/Search Buttons */
+.btn-submit,
+.btn-search {
+    margin-top: 15px;
+    padding: 12px 22px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover,
+.btn-search:hover {
+    background: #2980b9;
+}
+
+/* Photo Preview */
+.photo-preview {
+    display: block;
+    margin-top: 12px;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}

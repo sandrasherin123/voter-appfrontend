@@ -1,0 +1,294 @@
+<h1 class="page-title">Voter Management</h1>
+<button class="btn-back" (click)="goBack()">⬅ Back</button>
+
+<div class="button-group">
+  <button [ngClass]="{ 'active': activeAction === 'add' }" (click)="setAction('add')">Add Voter</button>
+  <button [ngClass]="{ 'active': activeAction === 'update' }" (click)="setAction('update')">Update/Delete
+    Voter</button>
+</div>
+
+<!-- Add New Voter Form -->
+<div *ngIf="activeAction === 'add'" class="form-container">
+  <form (ngSubmit)="addVoter()" #addVoterForm="ngForm" class="voter-form">
+
+    <h2>Add New Voter</h2>
+
+    <!-- Name -->
+    <div class="form-row">
+      <label>Name:</label>
+      <div class="form-input">
+        <input type="text" [(ngModel)]="newVoter.name" name="name" required />
+        <div *ngIf="addVoterForm?.controls?.['name']?.invalid && addVoterForm?.controls?.['name']?.touched"
+          class="error">
+          Please enter a valid name.
+        </div>
+      </div>
+    </div>
+
+    <!-- DOB -->
+    <div class="form-row">
+      <label>DOB:</label>
+      <div class="form-input">
+        <input type="date" [(ngModel)]="newVoter.dob" name="dob" required />
+        <div *ngIf="addVoterForm?.controls?.['dob']?.invalid && addVoterForm?.controls?.['dob']?.touched" class="error">
+          Please select date of birth.
+        </div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-row">
+      <label>Email:</label>
+      <div class="form-input">
+        <input type="email" [(ngModel)]="newVoter.email" name="email" required email />
+        <div *ngIf="addVoterForm?.controls?.['email']?.invalid && addVoterForm?.controls?.['email']?.touched"
+          class="error">
+          Please enter a valid email.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-row">
+      <label>Phone:</label>
+      <div class="form-input">
+        <input type="text" [(ngModel)]="newVoter.phone" name="phone" required pattern="[0-9]{10}" />
+        <div *ngIf="addVoterForm?.controls?.['phone']?.invalid && addVoterForm?.controls?.['phone']?.touched"
+          class="error">
+          Please enter a valid 10-digit phone number.
+        </div>
+      </div>
+    </div>
+
+    <!-- Gender -->
+    <div class="form-row">
+      <label>Gender:</label>
+      <div class="form-input">
+        <select [(ngModel)]="newVoter.gender" name="gender" required>
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <div *ngIf="addVoterForm?.controls?.['gender']?.invalid && addVoterForm?.controls?.['gender']?.touched"
+          class="error">
+          Please select gender.
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo -->
+    <div class="form-row">
+      <label>Photo:</label>
+      <div class="form-input">
+        <input type="file" (change)="onPhotoSelected($event, 'add')" accept="image/*" />
+        <img *ngIf="newVoter.photoUrl" [src]="newVoter.photoUrl" alt="Preview" width="100" height="100" />
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-row">
+      <label>Address:</label>
+      <div class="form-input">
+        <input type="text" [(ngModel)]="newVoter.address" name="address" required />
+        <div *ngIf="addVoterForm?.controls?.['address']?.invalid && addVoterForm?.controls?.['address']?.touched"
+          class="error">
+          Please enter your address.
+        </div>
+      </div>
+    </div>
+
+    <!-- Aadhaar -->
+    <div class="form-row">
+      <label>Aadhaar ID:</label>
+      <div class="form-input">
+        <input type="number" [(ngModel)]="newVoter.aadhaar.aadhaarId" name="aadhaarId" required pattern="[0-9]{12}" />
+        <div *ngIf="addVoterForm?.controls?.['aadhaarId']?.invalid && addVoterForm?.controls?.['aadhaarId']?.touched"
+          class="error">
+          Aadhaar must be exactly 12 digits.
+        </div>
+      </div>
+    </div>
+
+    <!-- Constituency -->
+    <!-- Lok Sabha Constituency -->
+    <div class="form-row">
+      <label>Lok Sabha Constituency:</label>
+      <div class="form-input">
+        <select [(ngModel)]="selectedLokSabha" name="lokSabhaConst">
+          <option value="">Select</option>
+          <option *ngFor="let c of lokSabhaConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Legislative Assembly Constituency -->
+    <div class="form-row">
+      <label>State Assembly Constituency:</label>
+      <div class="form-input">
+        <select [(ngModel)]="selectedAssembly" name="assemblyConst">
+          <option value="">Select</option>
+          <option *ngFor="let c of assemblyConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Local Government Constituency -->
+    <div class="form-row">
+      <label>Local Government Constituency:</label>
+      <div class="form-input">
+        <select [(ngModel)]="selectedLocal" name="localConst">
+          <option value="">Select</option>
+          <option *ngFor="let c of localConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+    </div>
+
+
+    <!-- Submit -->
+    <div class="form-row">
+      <div class="form-input full-width">
+        <button type="submit" class="btn-primary" [disabled]="addVoterForm.invalid">Add Voter</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Update/Delete Voter Section -->
+<!-- Update/Delete Voter Section -->
+<div *ngIf="activeAction === 'update'" class="update-section">
+  <!-- Search card -->
+  <div class="card search-card">
+    <h2>Search Voter by Aadhaar</h2>
+
+    <div class="search-row">
+      <input type="text" [(ngModel)]="searchAadhaar" name="searchAadhaar" placeholder="Enter 12-digit Aadhaar"
+        maxlength="12" class="aadhaar-input" />
+      <button class="btn-search" (click)="searchVoter()">Search</button>
+    </div>
+  </div>
+
+  <div *ngIf="foundVoter && !editMode" class="center-details">
+    <div class="card voter-details">
+      <h3>Voter Details</h3>
+      <p><strong>Name:</strong> {{ foundVoter.name }}</p>
+      <p><strong>DOB:</strong> {{ foundVoter.dob }}</p>
+      <p><strong>Email:</strong> {{ foundVoter.email }}</p>
+      <p><strong>Phone:</strong> {{ foundVoter.phone }}</p>
+      <p><strong>Gender:</strong> {{ foundVoter.gender }}</p>
+      <p><strong>Address:</strong> {{ foundVoter.address }}</p>
+      <img *ngIf="foundVoter.photoUrl" [src]="foundVoter.photoUrl" width="100" height="100" />
+
+      <div class="actions">
+        <button type="button" class="btn-edit" (click)="editVoter(foundVoter)">Edit</button>
+        <button type="button" class="btn-delete" (click)="deleteVoter(foundVoter.vid)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side-by-side split -->
+  <div class="split" *ngIf="foundVoter && editMode">
+    <!-- LEFT: Voter details -->
+    <div class="card voter-details">
+      <h3>Voter Details</h3>
+      <p><strong>Name:</strong> {{ foundVoter.name }}</p>
+      <p><strong>DOB:</strong> {{ foundVoter.dob }}</p>
+      <p><strong>Email:</strong> {{ foundVoter.email }}</p>
+      <p><strong>Phone:</strong> {{ foundVoter.phone }}</p>
+      <p><strong>Gender:</strong> {{ foundVoter.gender }}</p>
+      <p><strong>Address:</strong> {{ foundVoter.address }}</p>
+      <img *ngIf="foundVoter.photoUrl" [src]="foundVoter.photoUrl" width="100" height="100" />
+
+      <div class="actions">
+        <button type="button" class="btn-edit" (click)="editVoter(foundVoter)">Edit</button>
+        <button type="button" class="btn-delete" (click)="deleteVoter(foundVoter.vid)">Delete</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Edit form -->
+    <form *ngIf="editMode" (ngSubmit)="updateVoter()" #editVoterForm="ngForm" class="card edit-form voter-form">
+      <h2>Edit Voter</h2>
+
+      <div class="form-row">
+        <label>Name:</label>
+        <div class="form-input">
+          <input type="text" [(ngModel)]="editVoterData.name" name="editName" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>DOB:</label>
+        <div class="form-input">
+          <input type="date" [(ngModel)]="editVoterData.dob" name="editDob" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Email:</label>
+        <div class="form-input">
+          <input type="email" [(ngModel)]="editVoterData.email" name="editEmail" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Phone:</label>
+        <div class="form-input">
+          <input type="text" [(ngModel)]="editVoterData.phone" name="editPhone" required pattern="[0-9]{10}" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Gender:</label>
+        <div class="form-input">
+          <select [(ngModel)]="editVoterData.gender" name="editGender" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Address:</label>
+        <div class="form-input">
+          <input type="text" [(ngModel)]="editVoterData.address" name="editAddress" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Aadhaar ID:</label>
+        <div class="form-input">
+          <input type="text" [(ngModel)]="editVoterData.aadhaar.aadhaarId" name="editAadhaarId" required
+            pattern="[0-9]{12}" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Lok Sabha Constituency:</label>
+        <select [(ngModel)]="selectedConstituencies['Lok sabha']" name="editLokSabha" required>
+          <option *ngFor="let c of lokSabhaConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>State Assembly Constituency:</label>
+        <select [(ngModel)]="selectedConstituencies['Legislative']" name="editAssembly" required>
+          <option *ngFor="let c of assemblyConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Local Government Constituency:</label>
+        <select [(ngModel)]="selectedConstituencies['Panchayat Election']" name="editLocal" required>
+          <option *ngFor="let c of localConstituencies" [value]="c.constId">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-input full-width">
+          <button type="submit" class="btn-primary btn-update">Update Voter</button>
+          <button type="button" class="btn-secondary btn-cancel" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

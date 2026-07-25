@@ -1,0 +1,66 @@
+<div>
+    <button class="btn-back" (click)="goBack()">⬅ Back</button>
+    <h2>Constituency Management</h2>
+
+    <div class="button-group">
+        <button (click)="toggleAddForm()" [class.active]="showAddForm">Add Constituency</button>
+        <button (click)="toggleUpdateDeleteForm()" [class.active]="showUpdateDeleteForm">Update/Delete
+            Constituency</button>
+    </div>
+
+    <!-- Add Constituency Form -->
+    <div *ngIf="showAddForm" class="form-container">
+        <h3>Add Constituency</h3>
+        <form (ngSubmit)="addConstituency()" #addForm="ngForm">
+            <!-- <input [(ngModel)]="newConstituency.constituencyId" name="constituencyId" placeholder="Constituency ID"
+                required /> -->
+            <input [(ngModel)]="newConstituency.name" name="name" placeholder="Name" required />
+            <input [(ngModel)]="newConstituency.district" name="district" placeholder="District" required />
+            <input [(ngModel)]="newConstituency.state" name="state" placeholder="State" required />
+            <input [(ngModel)]="newConstituency.totalCandidates" name="totalCandidates" placeholder="Total Candidates"
+                required />
+            <input [(ngModel)]="newConstituency.totalVoters" name="totalVoters" placeholder="Total Voters" required />
+            <label for="electionType">Election Type:</label>
+            <select [(ngModel)]="electionTypeId" name="electionTypeId" required>
+                <option *ngFor="let et of electionTypes" [value]="et.electionTypeId">{{ et.name }}</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Update/Delete Form -->
+    <div *ngIf="showUpdateDeleteForm" class="form-container">
+        <h3>Update/Delete Constituency</h3>
+
+        <input [(ngModel)]="searchTerm" name="searchTerm" placeholder="Type at least 3 letters"
+            (input)="onSearchTermChange()" autocomplete="off" />
+
+        <!-- Autocomplete Dropdown -->
+        <ul *ngIf="matchingConstituencies.length > 0" class="autocomplete-list">
+            <li *ngFor="let c of matchingConstituencies" (click)="selectConstituency(c)">
+                {{ c.name }}
+            </li>
+        </ul>
+
+        <button (click)="searchConstituency()" [disabled]="!selectedConstituency">Search</button>
+
+        <div *ngIf="searchedConstituency" class="result-container">
+            <h4>Constituency Details</h4>
+            <p><strong>ID:</strong> {{ searchedConstituency.constituencyId }}</p>
+            <p><strong>Name:</strong> <input [(ngModel)]="searchedConstituency.name" /></p>
+            <p><strong>District:</strong> <input [(ngModel)]="searchedConstituency.district" /></p>
+            <p><strong>State:</strong> <input [(ngModel)]="searchedConstituency.state" /></p>
+            <p><strong>Total Candidates:</strong> <input [(ngModel)]="searchedConstituency.totalCandidates" /></p>
+            <p><strong>Total Voters:</strong> <input [(ngModel)]="searchedConstituency.totalVoters" /></p>
+            <label for="electionTypeUpdate">Election Type:</label>
+            <select [(ngModel)]="selectedElectionTypeId" name="electionTypeUpdate">
+                <option *ngFor="let et of electionTypes" [value]="et.et_id">{{ et.name }}</option>
+            </select>
+
+
+            <div class="button-group">
+                <button (click)="updateConstituency()">Update</button>
+                <button (click)="deleteConstituency()">Delete</button>
+            </div>
+        </div>
+    </div>

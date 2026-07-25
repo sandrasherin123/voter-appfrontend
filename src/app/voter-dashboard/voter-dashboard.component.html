@@ -1,0 +1,17 @@
+<h2 class="welcome-title">Welcome Voter</h2>
+<button class="btn-back" (click)="goBack()">⬅ Back</button>
+
+<div *ngIf="constituencies.length > 0; else noConstituency" class="form-container">
+    <label for="constituency" class="form-label">Select Constituency:</label>
+    <select id="constituency" [(ngModel)]="selectedConstituency" class="form-select">
+        <option *ngFor="let c of constituencies" [value]="c.constId">
+            {{ c.name }}
+        </option>
+    </select>
+
+    <button class="submit-btn" (click)="submitConstituency()">Submit</button>
+</div>
+
+<ng-template #noConstituency>
+    <p class="no-data">No constituency assigned for this voter.</p>
+</ng-template>

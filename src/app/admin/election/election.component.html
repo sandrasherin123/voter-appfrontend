@@ -1,0 +1,172 @@
+<div class="election-management">
+    <button class="btn-back" (click)="goBack()">⬅ Back</button>
+
+    <h2>Election Management</h2>
+
+    <!-- Button Container -->
+    <div class="button-container">
+        <button class="toggle-btn" (click)="toggleElectionType()">Add Election Type</button>
+        <button class="toggle-btn" (click)="toggleElection()">Add Election</button>
+        <button class="toggle-btn" (click)="toggleActivateElection()">Activate Election</button>
+        <!-- <button class="toggle-btn" (click)="toggleEditElection()">Edit Election</button> -->
+    </div>
+
+    <!-- Forms -->
+    <div class="form-section">
+        <div *ngIf="showAddElectionType" class="form-container">
+            <h3>Add Election Type</h3>
+            <form (ngSubmit)="addElectionType()" #typeForm="ngForm" class="styled-form">
+                <input [(ngModel)]="newElectionType.electionTypeId" name="electionTypeId" placeholder="Election Type ID"
+                    type="number" required />
+                <input [(ngModel)]="newElectionType.name" name="name" placeholder="Election Name" required />
+                <button type="submit" class="save-btn">Save</button>
+            </form>
+        </div>
+
+        <!-- add election -->
+        <div *ngIf="showActivateForm" class="form-container">
+            <h3>Add Election</h3>
+            <form (ngSubmit)="addElection()" #electionForm="ngForm" class="styled-form">
+
+                <!-- Title -->
+                <input [(ngModel)]="newElection.title" name="title" placeholder="Title" required />
+
+                <!-- Dates -->
+                <input [(ngModel)]="newElection.startDate" name="startDate" type="date" [min]="minDate" required />
+
+                <!-- End Date must be greater than startDate -->
+                <input [(ngModel)]="newElection.endDate" name="endDate" type="date" [min]="newElection.startDate"
+                    required />
+
+                <!-- Status as Styled Radio -->
+                <div class="status-options">
+                    <label class="radio-btn">
+                        <input type="radio" [(ngModel)]="newElection.status" name="status" value="Active" required />
+                        <span>Active</span>
+                    </label>
+                    <label class="radio-btn">
+                        <input type="radio" [(ngModel)]="newElection.status" name="status" value="Inactive" />
+                        <span>Inactive</span>
+                    </label>
+                </div>
+
+                <!-- Election Type Dropdown -->
+                <select [(ngModel)]="newElection.electionType.et_id" name="electionTypeId" required>
+                    <option value="" disabled selected>-- Select Election Type--</option>
+                    <option *ngFor="let type of electionTypes" [value]="type.et_id">
+                        {{ type.name }}
+                    </option>
+                </select>
+
+                <button type="submit" class="save-btn">Save</button>
+            </form>
+        </div>
+
+        <!-- activate Election -->
+
+        <div *ngIf="showActivateElectionForm" class="form-container">
+            <h3>Activate Election</h3>
+            <form (ngSubmit)="activateElection()" #activateForm="ngForm" class="styled-form">
+
+                <!-- Select Election -->
+                <select [(ngModel)]="activationData.election" (ngModelChange)="onElectionSelect($event)"
+                    name="selectedElection" required>
+                    <option value="">-- Select Election --</option>
+                    <option *ngFor="let election of elections" [ngValue]="election">
+                        {{ election.title }}
+                    </option>
+                </select>
+
+                <!-- From Date (read-only) -->
+                <input type="date" [value]="selectedElection?.startDate | date:'yyyy-MM-dd'" disabled />
+
+                <!-- To Date (read-only) -->
+                <input type="date" [value]="selectedElection?.endDate | date:'yyyy-MM-dd'" disabled />
+
+                <!-- Activation Date -->
+                <input [(ngModel)]="activationData.date" name="activationDate" type="date" required
+                    [min]="selectedElection?.startDate | date:'yyyy-MM-dd'"
+                    [max]="selectedElection?.endDate | date:'yyyy-MM-dd'" />
+
+                <!-- Status -->
+                <div class="status-options">
+                    <label class="radio-btn">
+                        <input type="radio" [(ngModel)]="activationData.status" name="activationStatus" value="Active"
+                            required />
+                        <span>Active</span>
+                    </label>
+                    <label class="radio-btn">
+                        <input type="radio" [(ngModel)]="activationData.status" name="activationStatus"
+                            value="Inactive" />
+                        <span>Inactive</span>
+                    </label>
+                </div>
+
+                <!-- Constituencies (multi-select) -->
+                <select [(ngModel)]="activationData.constituencies" name="constituencies" multiple required>
+                    <option *ngFor="let c of constituencies" [value]="c.constId">
+                        {{ c.name }}
+                    </option>
+                </select>
+
+                <button type="submit" class="save-btn">Activate</button>
+            </form>
+        </div>
+
+
+        <!-- edit election -->
+
+        <!-- edit election -->
+        <div *ngIf="showEditElectionForm" class="form-container">
+            <h3>Edit Election</h3>
+
+            <!-- Search Form -->
+            <form (ngSubmit)="searchElection()" #editForm="ngForm" class="styled-form">
+                <!-- Search Input -->
+                <input [(ngModel)]="searchTerm" name="searchTerm" placeholder="Enter election title (min 3 letters)"
+                    (input)="onSearchChange()" required />
+                <!--<button type="submit" class="save-btn" [disabled]="searchTerm.length < 3">Search</button>-->
+            </form>
+
+            <!-- Search Results -->
+            <div *ngIf="searchResults.length > 0" class="mt-3">
+                <label>Select Election:</label>
+                <select [(ngModel)]="selectedSearchElection" name="selectedSearchElection" class="styled-select">
+                    <option *ngFor="let e of searchResults" [ngValue]="e">
+                        {{ e.title }} ({{ e.startDate | date:'yyyy-MM-dd' }})
+                    </option>
+                </select>
+                <button type="button" class="save-btn" (click)="loadElectionDetails()">Search</button>
+            </div>
+
+            <!-- Editable Form -->
+            <div *ngIf="editElection" class="mt-4">
+                <h4>Editing: {{ editElection.title }}</h4>
+
+                <form #updateForm="ngForm" (ngSubmit)="updateElection()" class="styled-form">
+                    <input [(ngModel)]="editElection.title" name="editTitle" placeholder="Title" required />
+                    <input [(ngModel)]="editElection.startDate" name="editStartDate" type="date" required />
+                    <input [(ngModel)]="editElection.endDate" name="editEndDate" type="date" required />
+
+                    <!-- Status Radio -->
+                    <div class="status-options">
+                        <label class="radio-btn">
+                            <input type="radio" [(ngModel)]="editElection.status" name="editStatus" value="Active"
+                                required />
+                            <span>Active</span>
+                        </label>
+                        <label class="radio-btn">
+                            <input type="radio" [(ngModel)]="editElection.status" name="editStatus" value="Inactive" />
+                            <span>Inactive</span>
+                        </label>
+                    </div>
+
+                    <!-- Update button -->
+                    <button type="submit" class="save-btn">Update</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>

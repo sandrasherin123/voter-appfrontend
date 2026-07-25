@@ -1,0 +1,18 @@
+<div class="container">
+    <button class="btn-back" (click)="goBack()">⬅ Back</button>
+    <h2>Candidate Dashboard</h2>
+
+    <label for="mappingSelect">Select Constituency & Election:</label>
+    <select id="mappingSelect" (change)="onSelectMapping(selectedMapping)" [(ngModel)]="selectedMapping">
+        <option *ngFor="let map of mappings" [ngValue]="map">
+            {{ map.election.title }} - Constituency {{ map.constituencyId }}
+        </option>
+    </select>
+
+
+    <div *ngIf="selectedMapping" class="details">
+        <h3>Selected Election</h3>
+        <p><strong>Election:</strong> {{ selectedMapping.election.title }}</p>
+        <p><strong>Constituency:</strong> {{ selectedMapping.constituencyId }}</p>
+    </div>
+</div>

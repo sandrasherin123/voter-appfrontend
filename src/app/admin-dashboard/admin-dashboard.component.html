@@ -1,0 +1,31 @@
+<div class="admin-dashboard">
+  <h2>Admin Dashboard</h2>
+  <button class="btn-back" (click)="goBack()">⬅ Back</button>
+
+  <div class="card-grid">
+    <div class="card" (click)="navigateTo('voters')">
+      <img src="assets/icons/voter.png" alt="Voter" />
+      <span>Voter</span>
+    </div>
+    <div class="card" (click)="navigateTo('candidates')">
+      <img src="assets/icons/candidate.png" alt="Candidate" />
+      <span>Candidate</span>
+    </div>
+    <div class="card" (click)="navigateTo('constituencies')">
+      <img src="assets/icons/Constituency.png" alt="Constituency" />
+      <span>Constituency</span>
+    </div>
+    <div class="card" (click)="navigateTo('election')">
+      <img src="assets/icons/election.png" alt="Election" />
+      <span>Election</span>
+    </div>
+    <div class="card" (click)="navigateTo('results')">
+      <img src="assets/icons/result.png" alt="Results" />
+      <span>Results</span>
+    </div>
+    <div class="card" (click)="navigateTo('reports')">
+      <img src="assets/icons/electionType.png" alt="reports" />
+      <span>Reports</span>
+    </div>
+  </div>
+</div>

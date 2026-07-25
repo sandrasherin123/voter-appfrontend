@@ -1,0 +1,24 @@
+<!-- candidate-descriptions.component.html -->
+<div class="container">
+  <button class="btn-back" (click)="goBack()">⬅ Back</button>
+  <h2>Candidate Descriptions for Constituency {{ constituencyId }}</h2>
+
+  <div *ngIf="descriptions.length === 0">
+    <p>No candidate descriptions found.</p>
+  </div>
+
+  <div *ngFor="let desc of descriptions" class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">
+        {{ desc.candidate?.name }} ({{ desc.election?.title }})
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Constituency: {{ desc.constituency?.constName }}
+      </h6>
+      <p class="card-text">
+        {{ desc.description }}
+      </p>
+      <small class="text-muted">Posted at: {{ desc.createdAt | date:'short' }}</small>
+    </div>
+  </div>
+</div>

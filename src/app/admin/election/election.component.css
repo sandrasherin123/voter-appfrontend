@@ -1,0 +1,150 @@
+/* Ensure page fills height for sticky footer */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main container */
+.election-management {
+    flex: 1;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Buttons at top */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Form styling */
+.form-container {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.styled-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.save-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #1e7e34;
+}
+
+/* Footer always at bottom */
+.footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+}
+
+/* Status radio buttons styled like toggle */
+.status-options {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.radio-btn {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.radio-btn input[type="radio"] {
+    display: none;
+    /* hide default radio */
+}
+
+.radio-btn span {
+    padding: 8px 16px;
+    border: 2px solid #007bff;
+    border-radius: 20px;
+    color: #007bff;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.radio-btn input[type="radio"]:checked+span {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Dropdown styling */
+select {
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.btn-back {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    margin-right: 83%;
+}
+
+.btn-back:hover {
+    background: linear-gradient(135deg, #224abe, #4e73df);
+    transform: translateY(-2px);
+}
+
+.btn-back:active {
+    transform: scale(0.96);
+}

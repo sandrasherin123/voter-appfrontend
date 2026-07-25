@@ -1,0 +1,180 @@
+<div class="header-container">
+    <button class="btn-back" (click)="goBack()">⬅ Back</button>
+    <h2>Candidate Management</h2>
+
+    <!-- Buttons -->
+    <div class="button-group">
+        <button [ngClass]="{ 'active': activeForm === 'search' }" (click)="toggleCandidateSearch()">
+            Get All Candidates
+        </button>
+
+        <button [ngClass]="{ 'active': activeForm === 'add' }" (click)="toggleForm('add')">
+            Add Candidate
+        </button>
+
+        <button [ngClass]="{ 'active': activeForm === 'map' }" (click)="toggleForm('map')">
+            Map Candidate
+        </button>
+    </div>
+
+    <!-- Candidate Search by Election + Constituency -->
+    <div *ngIf="showSearchForm">
+        <h3>Search Candidates</h3>
+
+        <!-- Search Row -->
+        <div class="search-container">
+            <!-- Election Search -->
+            <div class="search-field">
+                <label for="electionSearch">Election:</label>
+                <input id="electionSearch" type="text" [(ngModel)]="electionSearch" name="electionSearch"
+                    placeholder="Type Election Name" (input)="onElectionSearch()" autocomplete="off" />
+                <div class="search-dropdown" *ngIf="filteredElections.length > 0">
+                    <div class="search-option" *ngFor="let e of filteredElections" (click)="selectElection(e)">
+                        {{ e.title }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constituency Search -->
+            <div class="search-field">
+                <label for="constituencySearch">Constituency:</label>
+                <input id="constituencySearch" type="text" [(ngModel)]="constituencySearch" name="constituencySearch"
+                    placeholder="Type Constituency Name" (input)="onConstituencySearch()" autocomplete="off" />
+                <div class="search-dropdown" *ngIf="filteredConstituencies.length > 0">
+                    <div class="search-option" *ngFor="let cons of filteredConstituencies"
+                        (click)="selectConstituency(cons)">
+                        {{ cons.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-search" (click)="searchCandidatesByFilters()">Search</button>
+
+        <!-- Candidate Results -->
+        <div *ngIf="candidates.length > 0" class="results-container">
+            <h4>Candidate Results</h4>
+            <div class="candidate-item" *ngFor="let c of candidates">
+                <span>{{ c.name }} ({{ c.partyName }})</span>
+                <button class="btn-delete" (click)="deleteCandidateMapping(c)">Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Add Candidate Form -->
+    <!-- Add Candidate Form -->
+    <div *ngIf="showAddForm" class="form-container">
+        <h3>Add Candidate</h3>
+        <form (ngSubmit)="addCandidate()" #addForm="ngForm" class="styled-form">
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input id="name" [(ngModel)]="newCandidate.name" name="name" placeholder="Enter full name" required
+                    autocomplete="off" pattern="^[a-zA-Z ]+$" title="Name should only contain letters and spaces" />
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input id="dob" [(ngModel)]="newCandidate.dob" name="dob" type="date" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" [(ngModel)]="newCandidate.email" name="email" type="email" placeholder="Enter email"
+                    required autocomplete="off" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    title="Please enter a valid email address" />
+            </div>
+
+
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input id="phone" [(ngModel)]="newCandidate.phone" name="phone" type="tel"
+                    placeholder="Enter phone number" required autocomplete="off" pattern="^[6-9][0-9]{9}$"
+                    title="Phone number must be 10 digits and start with 6, 7, 8, or 9" />
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" [(ngModel)]="newCandidate.gender" name="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input id="address" [(ngModel)]="newCandidate.address" name="address" placeholder="Enter address"
+                    required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label for="partyName">Party Name:</label>
+                <input id="partyName" [(ngModel)]="newCandidate.partyName" name="partyName"
+                    placeholder="Enter party name" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label for="photo">Photo:</label>
+                <input id="photo" type="file" (change)="onPhotoSelected($event)" accept="image/*" required />
+                <img *ngIf="newCandidate.photoUrl" [src]="newCandidate.photoUrl" alt="Preview" class="photo-preview" />
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+    </div>
+
+
+
+    <!-- Map Candidate Form -->
+    <div *ngIf="showMapForm" class="form-container">
+        <h3>Map Candidate to Election</h3>
+        <form (ngSubmit)="mapCandidate()" #mapForm="ngForm" class="styled-form">
+
+            <!-- Candidate Search -->
+            <div class="form-group">
+                <label for="candidateSearch">Candidate:</label>
+                <input id="candidateSearch" type="text" [(ngModel)]="candidateSearch" name="candidateSearch"
+                    placeholder="Type Candidate Name" (input)="onCandidateSearch()" required autocomplete="off" />
+                <ul class="dropdown-list" *ngIf="filteredCandidates.length > 0">
+                    <li *ngFor="let c of filteredCandidates" (click)="selectCandidate(c)">
+                        {{ c.name }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Election Search -->
+            <div class="form-group">
+                <label for="electionSearch">Election:</label>
+                <input id="electionSearch" type="text" [(ngModel)]="electionSearch" name="electionSearch"
+                    placeholder="Type Election Name" (input)="onElectionSearch()" required autocomplete="off" />
+                <ul class="dropdown-list" *ngIf="filteredElections.length > 0">
+                    <li *ngFor="let e of filteredElections" (click)="selectElection(e)">
+                        {{ e.title }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Constituency Search -->
+            <div class="form-group">
+                <label for="constituencySearch">Constituency:</label>
+                <input id="constituencySearch" type="text" [(ngModel)]="constituencySearch" name="constituencySearch"
+                    placeholder="Type Constituency Name" (input)="onConstituencySearch()" required autocomplete="off" />
+                <ul class="dropdown-list" *ngIf="filteredConstituencies.length > 0">
+                    <li *ngFor="let cons of filteredConstituencies" (click)="selectConstituency(cons)">
+                        {{ cons.name }}
+                    </li>
+                </ul>
+            </div>
+
+            <button type="submit" class="btn-submit">Map Candidate</button>
+        </form>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,96 @@
+<!-- login.component.html -->
+<div class="login-container">
+
+    <!-- Step 1: Select User Type (Only if not direct routed) -->
+    <div *ngIf="!loginStepStarted">
+        <h2>Select Login Type</h2>
+        <label for="userType">Login as:</label>
+        <select [(ngModel)]="userType" id="userType">
+            <option value="" disabled selected>Select</option>
+            <option value="admin">Admin</option>
+            <option value="voter">Voter</option>
+            <option value="candidate">Candidate</option>
+        </select>
+        <br /><br />
+        <button (click)="startLogin()">Proceed</button>
+    </div>
+
+    <!-- Step 2: Login Form Based on Type -->
+    <div *ngIf="loginStepStarted">
+        <button (click)="resetSelection()">⬅ Back</button>
+        <br /><br />
+
+        <!-- Admin Login -->
+        <div *ngIf="userType === 'admin'">
+            <h3>Admin Login</h3>
+            <input type="text" [(ngModel)]="adminUsername" placeholder="Username" />
+            <br />
+            <input type="password" [(ngModel)]="adminPassword" placeholder="Password" />
+            <br />
+            <button (click)="loginAdmin()">Login</button>
+        </div>
+
+        <!-- Voter Login -->
+<!-- Voter Login -->
+<div *ngIf="userType === 'voter'">
+  <h2>Voter OTP Login</h2>
+
+  <!-- Voter ID Input -->
+  <label for="voterId">Aadhaar Id:</label>
+  <input type="text" [(ngModel)]="voterAadhaarId" placeholder="Enter Aadhaar ID" />
+
+  <br /><br />
+
+  <!-- Generate OTP Button -->
+  <button (click)="generateOtpForVoter()">Get OTP</button>
+
+  <br /><br />
+
+  <!-- OTP Input -->
+  <label for="voterOtp">Enter OTP:</label>
+  <input type="text" id="voterOtp" [(ngModel)]="enteredVoterOtp" placeholder="Enter OTP" />
+
+  <br /><br />
+
+  <!-- Verify Button -->
+  <button (click)="verifyVoterOtp()">Verify OTP</button>
+</div>
+
+
+
+        <!-- Candidate Login -->
+<div *ngIf="userType === 'candidate'">
+  <h2>Candidate OTP Login</h2>
+
+  <!-- Candidate ID Input -->
+  <label for="candidateId">Candidate ID:</label>
+  <input
+    type="text"
+    id="candidateId"
+    [(ngModel)]="candidateId"
+    placeholder="Enter Candidate ID"
+  />
+
+  <br /><br />
+
+  <!-- Get OTP Button -->
+  <button (click)="generateOtpForCandidate()">Get OTP</button>
+
+  <br /><br />
+
+  <!-- OTP Input Field -->
+  <label for="otp">Enter OTP:</label>
+  <input
+    type="text"
+    id="otp"
+    [(ngModel)]="enteredOtp"
+    placeholder="Enter OTP"
+  />
+
+  <br /><br />
+
+  <!-- Verify Button -->
+  <button (click)="verifyCandidateOtp()">Verify OTP</button>
+</div>
+
+</div>

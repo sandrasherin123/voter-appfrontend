@@ -1,0 +1,45 @@
+<div class="container">
+  <button class="btn-back" (click)="goBack()">⬅ Back</button>
+  <h2>🗳️ Election Management</h2>
+
+  <!-- 🔹 Unified Election Search -->
+  <div class="section">
+    <label for="electionSearch">Search Election</label>
+    <input id="electionSearch" type="text" placeholder="Type at least 3 characters..." (input)="searchElections($event)"
+      [(ngModel)]="searchTerm" />
+  </div>
+
+  <div *ngIf="elections.length > 0" class="section">
+    <label for="electionSelect">Select Election</label>
+    <select id="electionSelect" [(ngModel)]="selectedElection" (change)="onElectionSelect(selectedElection)">
+      <option *ngFor="let election of elections" [ngValue]="election">
+        {{ election.title }} ({{ election.electionType.name }})
+      </option>
+    </select>
+  </div>
+
+  <!-- 🔹 Constituency selection -->
+  <div *ngIf="constituencies.length > 0" class="section">
+    <label for="constituencySelect">Select Constituency</label>
+    <select id="constituencySelect" [(ngModel)]="selectedConstituency">
+      <option *ngFor="let c of constituencies" [ngValue]="c">
+        {{ c.constituency.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 🔹 Action buttons -->
+  <div class="actions section">
+    <button (click)="publishResults()" [disabled]="!selectedConstituency">📢 Publish Results</button>
+    <button (click)="searchResults()" [disabled]="!selectedConstituency">🔎 Search Results</button>
+  </div>
+
+  <!-- 🔹 Display results as horizontal bar graph -->
+  <div *ngIf="results.length > 0" class="results section">
+    <h3>📊 Election Results</h3>
+    <div class="chart-wrapper">
+      <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
+</div>
