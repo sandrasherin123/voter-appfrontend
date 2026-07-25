@@ -22,7 +22,7 @@ export class CandidateDashboardComponent implements OnInit {
   ngOnInit(): void {
     const candId = sessionStorage.getItem("candId");
     if (candId) {
-      this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/candidateMappings/${candId}`)
+      this.http.get<any[]>(`https://voterapp-backend1-production.up.railway.app/candidateMappings/${candId}`)
         .subscribe({
           next: (res) => {
             this.mappings = res;

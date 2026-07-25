@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MediatorServiceService {
-  private baseUrl = 'https://voter-appbackend-production.up.railway.app';
+  private baseUrl = 'https://voterapp-backend1-production.up.railway.app';
 
   constructor(private http: HttpClient) { }
 

@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
       password: this.adminPassword
     };
 
-    this.http.post('https://voter-appbackend-production.up.railway.app/login', loginPayload, { responseType: 'text' }).subscribe({
+    this.http.post('https://voterapp-backend1-production.up.railway.app/login', loginPayload, { responseType: 'text' }).subscribe({
       next: (response: string) => {
         console.log(response);
         if (response === 'Login successful') {
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const url = `https://voter-appbackend-production.up.railway.app/generate/${this.voterAadhaarId}`;
+    const url = `https://voterapp-backend1-production.up.railway.app/login/generate/${this.voterAadhaarId}`;
 
     this.http.post<any>(url, {}).subscribe({
       next: (res) => {
@@ -127,7 +127,7 @@ export class LoginComponent implements OnInit {
       .set('aadhaarId', this.voterAadhaarId)
       .set('otp', this.enteredVoterOtp);
 
-    this.http.post<any>('https://voter-appbackend-production.up.railway.app/verifyVoterOtp', {}, {
+    this.http.post<any>('https://voterapp-backend1-production.up.railway.app/verifyVoterOtp', {}, {
       params: payload
     }).subscribe({
       next: (response) => {
@@ -155,7 +155,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const url = `https://voter-appbackend-production.up.railway.app/generateCandidateOtp/${this.candidateId}`;
+    const url = `https://voterapp-backend1-production.up.railway.app/generateCandidateOtp/${this.candidateId}`;
 
     this.http.post<any>(url, {}).subscribe({
       next: (res) => {
@@ -180,7 +180,7 @@ export class LoginComponent implements OnInit {
       .set('candidateId', this.candidateId)
       .set('otp', this.enteredOtp);
 
-    this.http.post<any>('https://voter-appbackend-production.up.railway.apps/verifyCandidateOtp', {}, { params }).subscribe({
+    this.http.post<any>('https://voterapp-backend1-production.up.railway.app/verifyCandidateOtp', {}, { params }).subscribe({
       next: (res) => {
         if (res.message === 'OTP verified successfully') {
           alert('Login successful');

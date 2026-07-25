@@ -30,7 +30,7 @@ export class VoterDashboardComponent implements OnInit {
   }
 
   loadConstituencies(voterId: string) {
-    this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/${voterId}/constituencies`)
+    this.http.get<any[]>(`https://voterapp-backend1-production.up.railway.app/${voterId}/constituencies`)
       .subscribe({
         next: (data) => {
           this.constituencies = data;

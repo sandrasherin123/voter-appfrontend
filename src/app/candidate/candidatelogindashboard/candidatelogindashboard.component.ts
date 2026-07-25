@@ -40,7 +40,7 @@ export class CandidatelogindashboardComponent implements OnInit {
 
       this.fetchResults(electionId, constituencyId);
       // Load voter stats
-      this.http.get<any>(`https://voter-appbackend-production.up.railway.app/dashboard/election/${constituencyId}/constituency/${electionId}/voter-stats`)
+      this.http.get<any>(`https://voterapp-backend1-production.up.railway.app/dashboard/election/${constituencyId}/constituency/${electionId}/voter-stats`)
         .subscribe({
           next: (res) => {
             this.totalVoters = res.totalVoters;
@@ -58,7 +58,7 @@ export class CandidatelogindashboardComponent implements OnInit {
   }
 
   fetchResults(electionId: number, constituencyId: number) {
-    this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/electionResult/${constituencyId}/${electionId}`)
+    this.http.get<any[]>(`https://voterapp-backend1-production.up.railway.app/electionResult/${constituencyId}/${electionId}`)
       .subscribe({
         next: (data) => {
           this.results = data;
@@ -87,7 +87,7 @@ export class CandidatelogindashboardComponent implements OnInit {
       description: this.descriptionText
     };
 
-    this.http.post('https://voter-appbackend-production.up.railway.app/addDescription', payload)
+    this.http.post('https://voterapp-backend1-production.up.railway.app/addDescription', payload)
       .subscribe({
         next: () => {
           this.saveMessage = '✅ Description saved successfully!';
