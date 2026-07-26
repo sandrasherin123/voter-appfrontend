@@ -73,7 +73,7 @@ export class ReportsComponent {
       const electionId = this.selectedElection.elecId;
       const constituencyId = this.selectedConstituency.constituency.constId;
 
-      this.http.get<any[]>(`https://voter-appbackend-production.up.railway.app/voters?electionId=${electionId}&constituencyId=${constituencyId}`)
+      this.http.get<any[]>(`https://voterapp-backend1-production.up.railway.app/voters?electionId=${electionId}&constituencyId=${constituencyId}`)
         .subscribe({
           next: (data) => {
             this.voterStatuses = data;

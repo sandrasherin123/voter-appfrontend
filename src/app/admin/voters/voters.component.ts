@@ -50,7 +50,7 @@ export class VotersComponent implements OnInit {
   selectedLocal: number | null = null;
 
 
-  private baseUrl = 'https://voter-appbackend-production.up.railway.app';
+  private baseUrl = 'https://voterapp-backend1-production.up.railway.app';
   constructor(private http: HttpClient,
     private searchService: SearchService,
     private location: Location
